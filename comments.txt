@@ -1,6 +1,6 @@
 commenting: hgou
-	1.pli3:
-	2.yating3:
+	1.pli3: Use the symble of ER properly. The ER graph compare to the final gruop work a little bit more complicated.
+	2.yating3: The ER graph fully indicated all the entities, attributes and relationships. Almost accurately only few entity not fit the final group work. 
 
 commenting: pli3
 	1.hgou:
