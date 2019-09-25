@@ -1,0 +1,106 @@
+﻿291 Assignment 1 Part II 
+
+
+CREATE TABLE Members(
+email CHAR(20),
+name CHAR(20),
+phone CHAR(20),
+PRIMARY KEY(email)
+);
+
+
+CREATE TABLE Divers(
+licNo CHAR(20),
+email CHAR(20) NOT NULL
+FOREIGN KEY(email) REFERENCES Members
+ON DELETE CASCADE
+);
+
+
+CREATE TABLE Locations( 
+city CHAR(10),
+prov CHAR(2),
+address CHAR(20),
+lcode CHAR(6),
+qdate DATE,
+amount REAL,
+email CHAR(20),
+PRIMARY KEY (lcode),
+FOREIGN KEY(email) REFERENCES Members
+);
+
+
+CREATE TABLE Cars(
+cno CHAR(20),
+make CHAR(10),
+model CHAR(10),
+year DATE,
+seats INTEGER,
+gdate DATE,
+email CHAR(20) NOT NULL,
+PRIMARY KEY(cno)
+FOREIGN KEY(email) REFERENCES Drivers
+ON DELETE CASCADE 
+);
+
+
+
+
+CREATE TABLE rides(
+rno CHAR(20) NOT NULL,
+price REAL,
+rdate DATE,
+seats INTEGER,
+lugDesc INTEGER,
+lcode1 CHAR(6) NOT NULL,
+lcode2 CHAR(6) NOT NULL,
+email CHAR(20), NOT NULL
+cno CHAR(20),
+PRIMARY KEY (rno),
+FOREIGN KEY(lcode1) REFERENCES locations,
+FOREIGN KEY(lcode2) REFERENCES locations,
+FOREIGN KEY(email) REFERENCES Drivers,
+FOREIGN KEY(cno) REFERENCES cars
+);
+
+
+CREATE TABLE Bookings(
+bno CHAR(20),
+rno CHAR(20) NOT NULL,
+email CHAR(25) NOT NULL,
+cost REAL,
+lcode1 CHAR(6) NOT NULL,
+lcode2 CHAR(6) NOT NULL,
+seats INTEGER,
+PRIMARY KEY (bno),
+FOREIGN KEY (lcode1) REFERENCES Locations,
+FOREIGN KEY (lcode2) REFERENCES Locations,
+FOREIGN KEY(email) REFERENCES Members,
+FOREIGN KEY(rno) REFERENCES rides
+);
+
+
+CREATE TABLE reviews(
+rid CHAR(20),
+rdate DATE,
+rtext CHAR(20),
+rscore INTEGER,
+email1 CHAR(20) NOT NULL,
+email2 CHAR(20) NOT NULL,
+rno CHAR(20),
+PRIMARY KEY(rid),
+FOREIGN KEY(email1) REFERENCES Members,
+FOREIGN KEY(email2) REFERENCES Members,
+FOREIGN KEY(rno) REFERENCES rides
+);
+
+
+
+
+CREATE TABLE enroute(
+lcode CHAR(6) NOT NULL,
+rno CHAR(6) NOT NULL,
+PRIMARY KEY(lcode,rno),
+FOREIGN KEY(lcode) REFERENCES Locations,
+FOREIGN KEY(rno) REFERENCES rides,
+);
