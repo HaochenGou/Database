@@ -7,5 +7,5 @@ commenting: pli3
 	2.yating3
 
 commenting: yating3
-	1.hgou:
-	2.pli3:
+	1.hgou:good organizer and clear diagram
+	2.pli3:clear thinking and diagram with comprehensive understanding of the assignment
