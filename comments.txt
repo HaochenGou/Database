@@ -3,8 +3,8 @@ commenting: hgou
 	2.yating3: The ER graph fully indicated all the entities, attributes and relationships. Almost accurately only few entity not fit the final group work. 
 
 commenting: pli3
-	1.hgou:
-	2.yating3
+	1.hgou:This diagram demontrates all information and relationships accurately by using the entities and relationships proficiently.
+	2.yating3: The diagram shows a perfect ISA structure to illstrate all the information about this assignment.
 
 commenting: yating3
 	1.hgou:good organizer and clear diagram
