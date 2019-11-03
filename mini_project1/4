@@ -24,7 +24,7 @@ def process_sale(data):
     new_ln = data[4] # get new name
     cursor.execute('select * from registrations where vin =:vin limit 1', {"vin": car_vin})
     connection.commit() 
-    get_data = cursor.fetchall # get data from database
+    get_data = cursor.fetchall() # get data from database
     if cur_fn.lower() != getdata[0][5].lower:
         raise Exception('Wrong name.')
     if cur_ln.lower() != getdata[0][6].lower:
