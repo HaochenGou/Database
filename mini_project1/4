@@ -33,14 +33,14 @@ def process_sale(data):
     exp_date = datetime.date(datetime.now())
     new_date = exp_date.replace(exp_date.year + 1)
     new_regno= random.randint(100, 9999) # get new regno
-    regno_data = cursor.execute('select * from registrations where regno =:regno limit 1', {"regno": new_regno})
+    regno_data = cursor.execute('select * from registrations where regno =:regno limit 1', {"regno": new_regno}).fetchall()
     while regno_data != NUll:
         new_regno= random.randint(100, 9999) # get new regno
-        regno_data = cursor.execute('select * from registrations where regno =:regno limit 1', {"regno": new_regno})        
+        regno_data = cursor.execute('select * from registrations where regno =:regno limit 1', {"regno": new_regno}).fetchall()        
     old_data = (exp_date, get_data[0][4])
     cursor.execute('update registrations set expiry = ? where vin = ?;', old_date)
     connection.commit() 
     new_data = (new_regno, exp_date, new_date, get_data[0][3], get_data[0][4], new_fn, new_ln)
-    cursor.execute('insert into registrations values(?,?,?,?,?,?,?);',new_data)
+    cursor.execute('insert into registrations values(?,?,?,?,?,?);',new_data)
     connection.commit() 
     return
