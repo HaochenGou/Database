@@ -41,6 +41,6 @@ def process_sale(data):
     cursor.execute('update registrations set expiry = ? where vin = ?;', old_date)
     connection.commit() 
     new_data = (new_regno, exp_date, new_date, get_data[0][3], get_data[0][4], new_fn, new_ln)
-    cursor.execute('insert into registrations values(?,?,?,?,?,?);',new_data)
+    cursor.execute('insert into registrations values(?,?,?,?,?,?,?);',new_data)
     connection.commit() 
     return
