@@ -45,7 +45,7 @@ def Issue_ticket(regis_num):
     c.execute('''Insert into tickets Values(?,?,?,?,?)''', (ticket_info))
     conn.commit()
 
-def main():
+def Question8():
     while True:
         c = conn.cursor()
         try:   
@@ -69,4 +69,4 @@ def main():
         else:
             print('Wrong input!')
     
-main()
+Question8()
