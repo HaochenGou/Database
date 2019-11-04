@@ -336,38 +336,39 @@ class Interface:
 				choice = input("Input r to return menu:")
 				if choice = "r":
 					self.agent_oper()	
-	def process_sale(self):
-		car_vin = input("Please input vin of car: ")
-		cur_fn = input("Please input first name of current onwer: ")
-		cur_ln = input("Please input last name of current onwer: ")
-		new_fn = input("Please input first name of new onwer: ")
-		new_ln = input("Please input last name of new onwer: ")
-		get_data = self.cursor.execute('select * from registrations where vin =:vin limit 1', {"vin": car_vin}).fetchall()
-		self.conn.commit() 
-		while  cur_fn.lower() != getdata[0][5].lower:
-			print ('Wrong name.')
-			cur_fn = input("Please input first name of current onwer: ")
-		while  cur_ln.lower() != getdata[0][6].lower:
-			print ('Wrong name.')  # check name
-			cur_ln = input("Please input last name of current onwer: ")
-		exp_date = datetime.date(datetime.now())
-		new_date = exp_date.replace(exp_date.year + 1)
-		new_regno= random.randint(100, 9999) # get new regno
-		regno_data = self.cursor.execute('select * from registrations where regno =:regno limit 1', {"regno": new_regno}).fetchall()
-		while regno_data != NUll:
-			new_regno= random.randint(100, 9999) # get new regno
-			regno_data = cursor.execute('select * from registrations where regno =:regno limit 1', {"regno": new_regno}).fetchall()        
-			old_data = (exp_date, get_data[0][4])
-			self.cursor.execute('update registrations set expiry = ? where vin = ?;', old_date)
-			self.conn.commit() 
-			new_data = (new_regno, exp_date, new_date, get_data[0][3], get_data[0][4], new_fn, new_ln)
-			self.cursor.execute('insert into registrations values(?,?,?,?,?,?);',new_data)
-			self.conn.commit() 
-		 choice = 0
-		 while choice != "r":
-				choice = input("Input r to return menu:")
-				if choice = "r":
-					self.agent_oper()	
+	def payment():
+		get_data = 0
+    		while get_data == 0:
+			t_tno = input("Please input ticket number: ")
+        		get_data = self.cursor.execute('select * from tickets where tno =:tno limit 1', {"tno": t_tno}).fetchall()  
+        		self.conn.commit() 
+       			if get_data == 0 :
+            			print("invaild ticket number.")
+    		t_payment = 0
+    		while t_payment == 0:
+        		t_payment = input("Please input payment: ")
+       	 		if  t_payment  == 0:
+            			print('Invalid payment.')       
+          
+   		while t_payment > get_data[0][2]:
+        		print('Invalid payment.')
+        		t_payment = input("Please input payment: ")
+        
+	    	get_pay = self.cursor.execute('select * from payments where tno =:tno', {"tno": t_tno}).fetchall()
+	    	sum_pay = get_pay[0][2] +  t_payment
+	    	if sum_pay > get_data[0][2]:
+			raise Exception('Invalid payment.')
+	    	pdate = datetime.date(datetime.now())
+	    	payments = (t_tno, pdate,  t_payment)
+	    	self.cursor.execute('insert into payments values(?,?,?);',payments)
+
+	    	self.conn.commit()   
+	    	choice = 0
+	    	while choice != "r":
+			choice = input("Input r to return menu:")
+			if choice = "r":
+				self.agent_oper()	
+				
 	def getAbstract():
 	    fname = input("Please input first name: ")
 	    lname = input("Please input first name: ")
