@@ -60,9 +60,9 @@ class Interface:
         elif option == '4':
             self.process_sale()
         elif option == '5':
-            self.payment(data)
+            self.payment()
         elif option == '6':
-            self.getAbstract(data)
+            self.getAbstract()
         elif option.upper() = 'L':
         	self.valid_login = False
         elif option.upper() = 'E':
@@ -126,7 +126,7 @@ class Interface:
 		        #create_random_regno
 		        ran_regno = self.getRegno()  
 
-		        #newborn
+		        #newborna
 				f_name = input('First Name: ')
 				l_name = input('Last Name: ')
 				gender = input('Gender (M/F): ')
@@ -285,5 +285,35 @@ class Interface:
 		    	print('Vehicle registration renewed.')
 		    	valid_entry = True
 		    	self.agent_oper()
+			
+	def process_sale(self):
+	    car_vin = input("Please input vin of car: ")
+	    cur_fn = input("Please input first name of current onwer: ")
+	    cur_ln = input("Please input last name of current onwer: ")
+	    new_fn = input("Please input first name of new onwer: ")
+	    new_ln = input("Please input last name of new onwer: ")
+	    self.cursor.execute('select * from registrations where vin =:vin limit 1', {"vin": car_vin})
+	    self.conn.commit()
+	    get_data = cursor.fetchall() # get data from database
+	    if cur_fn.lower() != getdata[0][5].lower:
+		raise Exception('Wrong name.')
+	    if cur_ln.lower() != getdata[0][6].lower:
+		raise Exception('Wrong name.')  # check name
+
+	    exp_date = datetime.date(datetime.now())
+	    new_date = exp_date.replace(exp_date.year + 1)
+	    new_regno= random.randint(100, 9999) # get new regno
+	    regno_data = cursor.execute('select * from registrations where regno =:regno limit 1', {"regno": new_regno}).fetchall()
+	    while regno_data != NUll:
+		new_regno= random.randint(100, 9999) # get new regno
+		regno_data = cursor.execute('select * from registrations where regno =:regno limit 1', {"regno": new_regno}).fetchall()        
+	    old_data = (exp_date, get_data[0][4])
+	    self.cursor.execute('update registrations set expiry = ? where vin = ?;', old_date)
+	    self.conn.commit() 
+	    new_data = (new_regno, exp_date, new_date, get_data[0][3], get_data[0][4], new_fn, new_ln)
+	    self.cursor.execute('insert into registrations values(?,?,?,?,?,?);',new_data)
+	    self.conn.commit()
+	    return
+
 
 main()
