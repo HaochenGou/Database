@@ -14,6 +14,7 @@ class Interface:
 	def __init__(self):
 		self.cursor = None
 		self.conn = sqlite3.connect('./test.db')
+		self.utype = None
 		self.app_continue = True
 		self.valid_login = False
 		self.run()
@@ -22,9 +23,9 @@ class Interface:
 		while self.app_continue:
 			self.login()
 			while self.valid_login:
-				if self.utype == 'a':
+				if self.utype[2] == 'a':
 					self.agent_oper()
-				elif self.utype == 'o':
+				elif self.utype[2] == 'o':
 					self.officer_oper()
 				# exception invalid input
 			print('\n''Logged Out')
@@ -34,9 +35,27 @@ class Interface:
 	def login(self):
 		while self.app_continue == False and self.valid_login == False:
 			print('\n''Please enter the valid user id and password to login.')
-			uid = input('User Id: ')
-			pwd = input('Password: ')
+			#uid = input('User Id: ')
+			#pwd = input('Password: ')
 	                #password 
+			username = input("Please input uid: ")
+			password = input("Please input password: ")
+			if re.match("^[A-Za-z0-9_]*$", username) and re.match("^[A-Za-z0-9_]*$", password):
+				encrypt(password)
+				self.conn.create_function("hash", 1, encrypt)
+				data = (username, password)
+				self.cursor.execute(" INSERT INTO users (uid, pwd) VALUES (?, hash(?)) ", data )
+				data = (password, )
+				uid = self.cursor.execute(" SELECT uid FROM member WHERE pedd LIKE hash(?) ", data).fetchall()
+				user_uid = self.cursor.execute('SELECT * FROM users WHERE uid=?;' , (uid,)).fetchall()
+				if username != user_uid:
+					print('Invalid uid or password.')
+				else:
+					self.valid_login = True
+	def encrypt(self,password):
+		alg = hashlib.sha256()
+		alg.update(password.encode("utf-8"))
+		return alg.hexdigest()	
 			
 			
 
