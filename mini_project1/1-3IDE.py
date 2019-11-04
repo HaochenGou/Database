@@ -285,6 +285,38 @@ class Interface:
 				print('Vehicle registration renewed.')
 				valid_entry = True
 				self.agent_oper()
+	def process_sale():
+	    car_vin = input("Please input vin of car: ")
+	    cur_fn = input("Please input first name of current onwer: ")
+	    cur_ln = input("Please input last name of current onwer: ")
+	    new_fn = input("Please input first name of new onwer: ")
+	    new_ln = input("Please input last name of new onwer: ")
+	    get_data = self.cursor.execute('select * from registrations where vin =:vin limit 1', {"vin": car_vin}).fetchall()
+	    self.conn.commit() 
+	    while  cur_fn.lower() != getdata[0][5].lower:
+		print ('Wrong name.')
+		cur_fn = input("Please input first name of current onwer: ")
+	    while  cur_ln.lower() != getdata[0][6].lower:
+		print ('Wrong name.')  # check name
+		cur_ln = input("Please input last name of current onwer: ")
+	    exp_date = datetime.date(datetime.now())
+	    new_date = exp_date.replace(exp_date.year + 1)
+	    new_regno= random.randint(100, 9999) # get new regno
+	    regno_data = self.cursor.execute('select * from registrations where regno =:regno limit 1', {"regno": new_regno}).fetchall()
+	    while regno_data != NUll:
+		new_regno= random.randint(100, 9999) # get new regno
+		regno_data = cursor.execute('select * from registrations where regno =:regno limit 1', {"regno": new_regno}).fetchall()        
+	    old_data = (exp_date, get_data[0][4])
+	    self.cursor.execute('update registrations set expiry = ? where vin = ?;', old_date)
+	    self.conn.commit() 
+	    new_data = (new_regno, exp_date, new_date, get_data[0][3], get_data[0][4], new_fn, new_ln)
+	    self.cursor.execute('insert into registrations values(?,?,?,?,?,?);',new_data)
+	    self.conn.commit() 
+	    choice = 0
+		 while choice != "r":
+				choice = input("Input r to return menu:")
+				if choice = "r":
+					self.agent_oper()	
 	def process_sale(self):
 		car_vin = input("Please input vin of car: ")
 		cur_fn = input("Please input first name of current onwer: ")
@@ -312,6 +344,62 @@ class Interface:
 			new_data = (new_regno, exp_date, new_date, get_data[0][3], get_data[0][4], new_fn, new_ln)
 			self.cursor.execute('insert into registrations values(?,?,?,?,?,?);',new_data)
 			self.conn.commit() 
-	return		
+		 choice = 0
+		 while choice != "r":
+				choice = input("Input r to return menu:")
+				if choice = "r":
+					self.agent_oper()	
+	def getAbstract():
+	    fname = input("Please input first name: ")
+	    lname = input("Please input first name: ")
+	    name = (fname, lname)
+	    # count lifetime data
+	    countTicket_query = "select count(*) from tickets t left outer join registrations r on t.regno = r.regno where fname = ? and lname = ?;"
+	    get_data = self.cursor.execute(countTicket_query,name).fetchall()
+	    count_ticket = get_data[0][0]
+
+	    countNotice_query  =  "select count(*) from demeritNotices where fname = ? and lname = ?;" 
+	    get_data = self.cursor.execute(countNotice_query,name).fetchall()
+	    count_Notice = get_data[0][0]
+
+	    countPoints_query = "select sum(points) from demeritNotices where fname = ? and lname = ?;" 
+	    get_data = self.cursor.execute(countPoints_query,name).fetchall()
+	    count_points = get_data[0][0]  
+
+	    # count last two years data
+	    count2Ticket_query = "select count(*) from tickets t left outer join registrations r on t.regno = r.regno where fname = ? and lname = ? and vdate >= DATE('NOW', '-2 YEAR');"
+	    get_data = self.cursor.execute(count2Ticket_query,name).fetchall()
+	    count2_ticket = get_data[0][0]   
+
+	    count2Notice_query = "select count(*) from demeritNotices where fname = ? and lname = ? and ddate >= DATE('NOW', '-2 YEAR');"
+	    get_data = self.cursor.execute(count2Notice_query,name).fetchall()
+	    count2_Notice = get_data[0][0]
+
+	    count2Points_query = "select sum(points) from demeritNotices where fname = ? and lname = ? and ddate >= DATE('NOW', '-2 YEAR');"
+	    get_data = self.cursor.execute(count2Points_query,name).fetchall()
+	    count2_points = get_data[0][0]     
+	    self.conn.commit()
+	    print("Total tickets count: %d" % count_ticket)
+	    print("Total demerit notices count: %d" % count_Notice)
+	    print("Total demerit points: %d" %  count_points)
+	    print("Past two year tickets count: %d" % count2_ticket )
+	    print("Past two year demerit notices count: %d" % count2_Notice)
+	    print("Past two year demerit points count: %d" % count2_points)
+
+	    choice = input('Would you like to see the each tickets?(input y to see the detail)')
+	    if choice.lower() == 'y':
+		display_query = "select tno, vdate, violation, fine, tickets, regno, make, model from tickets t left outer join registrations  r on t.regno = r.regno left outer join vehicles v on v.vin = r.vin where fname = ? and lname = ? order by vdate desc limit 5;"
+		get_data = self.cursor.execute(display_query,name).fetchall()
+		print(get_data)        
+		choice = input('Would you like to see the all tickets?(input y to see the total list)')
+		display_query = "select tno, vdate, violation, fine, tickets, regno, make, model from tickets t left outer join registrations  r on t.regno = r.regno left outer join vehicles v on v.vin = r.vin where fname = ? and lname = ? order by vdate desc;"
+		get_data = self.cursor.execute(display_query,name).fetchall()
+		print(get_data)  
+		self.conn.commit()
+	   choice = 0
+		 while choice != "r":
+				choice = input("Input r to return menu:")
+				if choice = "r":
+					self.agent_oper()
 
 main()
