@@ -1,11 +1,5 @@
-import sqlite3
-import random
 
-connection = None
-cursor = None
-conn = sqlite3.connect('./a2.db')
-
-def Check_info(regis_num, self):
+def Check_info(self, regis_num):
     self.cursor.execute('''Select b.fname||b.lname, v.make, v.model, v.year, v.color
                  From births b, vehicles v, registrations r
                  Where b.regno = ? and b.regno = r.regno
@@ -28,7 +22,7 @@ def random_num(self):
         else:
             return ticket_num
         
-def Issue_ticket(regis_num, self):
+def Issue_ticket(self, regis_num):
     v_date = input('Provide the tickets date:')
     if v_date == 'null':
         self.cursor.execute("Select date('now');")
