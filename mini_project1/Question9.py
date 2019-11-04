@@ -5,7 +5,7 @@ cursor = None
 conn = sqlite3.connect('./a2.db')
 part_sql = ''
 part_sql_2 = ''
-def Null_check(car_make, car_model, car_color, car_year, car_plate, part_sql):
+def Null_check(self, car_make, car_model, car_color, car_year, car_plate, part_sql):
     Full_sql = "Select distinct v.make, v.model, v.color, v.year, r.plate From registrations r, vehicles v Where r.vin = v.vin "
     if car_make != 'null':
         part_sql = part_sql + 'and v.make = ' + '"' + str(car_make) + '"'
@@ -20,23 +20,21 @@ def Null_check(car_make, car_model, car_color, car_year, car_plate, part_sql):
     Full_sql = Full_sql + part_sql + ";"
     return Full_sql, part_sql
         
-def search_info(part_sql):
-    c = conn.cursor()
+def search_info(self, part_sql):
     car_make = input('Provide the make of car:')
     car_model = input('Provide the model of car:')
     car_color = input('Provide the color of car:')
     car_year = input('Provide the year of car:')
     car_plate = input('Provide the plate of car:')
     Full_sql, part_sql = Null_check(car_make, car_model, car_color, car_year, car_plate, part_sql)
-    c.execute(Full_sql)
-    rows = c.fetchall()
+    self.cursor.execute(Full_sql)
+    rows = self.cursor.fetchall()
     Results(rows, part_sql, part_sql_2)
     
-def Results(rows, part_sql, part_sql_2):
+def Results(self, rows, part_sql, part_sql_2):
     full_sql_2 = 'Select distinct v.make, v.model, v.color, v.year, r.plate, r.regdate, r.expiry, r.fname||r.lname From registrations r, vehicles v Where r.vin = v.vin ' 
     
     if len(rows) >= 4:
-        c = conn.cursor()
         for row in rows:
             print(row)
         selected_num = input('Provide the num you want to selected:')
@@ -46,17 +44,17 @@ def Results(rows, part_sql, part_sql_2):
             select_list.append(info)
         Full_sql, part_sql_2 = Null_check(select_list[0], select_list[1], select_list[2], select_list[3], select_list[4], part_sql_2)
         full_sql_2 = full_sql_2 + part_sql_2
-        c.execute(full_sql_2)
-        result = c.fetchall()
+        self.cursor.execute(full_sql_2)
+        result = self.cursor.fetchall()
         print(result)
         
     if len(rows) < 4:
         c = conn.cursor()
         full_sql_2 = full_sql_2 + part_sql
-        c.execute(full_sql_2)
-        result = c.fetchall()
+        self.cursor.execute(full_sql_2)
+        result = self.cursor.fetchall()
         print(result)
         
-def main():
-    search_info(part_sql)
+def Question9(self):
+    self.search_info(part_sql)
 main()
