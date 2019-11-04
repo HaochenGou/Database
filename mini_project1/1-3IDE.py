@@ -225,7 +225,7 @@ class Interface:
 				self.cursor.execute('''SELECT * FROM persons
 				                       WHERE lname = ? AND fname = ?;''', (lname, fname))
 	
-				if self.__cursor.fetchone() == 0: # not in database
+				if self.cursor.fetchone() == 0: # not in database
 					self.addPerson(fname,lname)
 	
 				#create marriage info
@@ -234,9 +234,9 @@ class Interface:
 				marr_regplace = self.user_info[5]
 				marriages_info = (marr_regno, marr_regdate, marr_regplace,
 						    p1_fname, p1_lname, p2_fname, p2_lname)
-				self.__cursor.execute(''' INSERT INTO marriages VALUES
+				self.cursor.execute(''' INSERT INTO marriages VALUES
 					                (?,?,?,?,?,?); ''', marriages_info)
-				self.__conn.commit()
+				self.conn.commit()
 			except:
 				print('Invalid Entry.Please try again')
 				decide_continue = input('Entry B to return back to menu OR Press Entry to retry')
