@@ -13,9 +13,9 @@ def connect(path):
     connection.commit()
     return
 
-def getAbstract(data):
-    fname = data[0]
-    lname = data[1]
+def getAbstract():
+    fname = input("Please input first name: ")
+    lname = input("Please input first name: ")
     name = (fname, lname)
     # count lifetime data
     countTicket_query = "select count(*) from tickets t left outer join registrations r on t.regno = r.regno where fname = ? and lname = ?;"
