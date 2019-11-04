@@ -14,14 +14,12 @@ def connect(path):
     connection.commit()
     return
 
-def process_sale(data):
-    if len(data) != 6:
-        raise Exception('Wrong input.') 
-    car_vin = data[0]
-    cur_fn = data[1]
-    cur_ln = data[2] #get current name
-    new_fn = data[3]
-    new_ln = data[4] # get new name
+def process_sale():
+    car_vin = input("Please input vin of car: ")
+    cur_fn = input("Please input first name of current onwer: ")
+    cur_ln = input("Please input last name of current onwer: ")
+    new_fn = input("Please input first name of new onwer: ")
+    new_ln = input("Please input last name of new onwer: ")
     cursor.execute('select * from registrations where vin =:vin limit 1', {"vin": car_vin})
     connection.commit() 
     get_data = cursor.fetchall() # get data from database
