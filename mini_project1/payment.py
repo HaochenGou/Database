@@ -31,5 +31,10 @@ def payment():
     payments = (t_tno, pdate,  t_payment)
     self.cursor.execute('insert into payments values(?,?,?);',payments)
    
-    self.conn.commit()     
-    return
+    self.conn.commit()   
+    choice = 0
+    while choice != "r":
+        choice = input("Input r to return menu:")
+        if choice = "r":
+        self.agent_oper()
+   
