@@ -52,5 +52,9 @@ def getAbstract():
         print(get_data)  
         self.conn.commit()
      
-    return
+    choice = 0
+    while choice != "r":
+        choice = input("Input r to return menu:")
+        if choice = "r":
+            self.agent_oper()
     
