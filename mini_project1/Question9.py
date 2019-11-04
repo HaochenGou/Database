@@ -61,7 +61,7 @@ def Results(rows, part_sql, part_sql_2):
         result = c.fetchall()
         print(result)
         
-def main():
+def Question9():
     while True:
         search_info(part_sql)
         quit_string = input('Whould yuu like to return to the menu?(Y/N):')
@@ -71,4 +71,4 @@ def main():
             pass
         else:
             print('Wrong Input!')
-main()
+Question9()
