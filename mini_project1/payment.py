@@ -2,8 +2,6 @@ import sqlite3
 import time
 import hashlib
 from datetime import datetime
-connection = None
-cursor = None
 
 def payment():
     get_data = 0
