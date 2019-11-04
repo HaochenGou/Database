@@ -2,9 +2,6 @@ import sqlite3
 import time
 import hashlib
 from datetime import datetime
-connection = None
-cursor = None
-
 
 def process_sale():
     car_vin = input("Please input vin of car: ")
@@ -33,4 +30,8 @@ def process_sale():
     new_data = (new_regno, exp_date, new_date, get_data[0][3], get_data[0][4], new_fn, new_ln)
     self.cursor.execute('insert into registrations values(?,?,?,?,?,?);',new_data)
     self.conn.commit() 
-    return
+    choice = 0
+    while choice != "r":
+        choice = input("Input r to return menu:")
+        if choice = "r":
+            self.agent_oper()
